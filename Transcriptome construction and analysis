@@ -1,5 +1,12 @@
 # de novo transcriptome assemlby using Gr15 and P12 RNA-Seq data
 
+# Unzipping RNA sequence fastq files (2 for Gr15 and 2 for P12; one forward and one reverse for each)
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R1_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R2_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-16-49-0-1_S15_L001_R1_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-16-49-0-1_S15_L001_R2_001.fastq.gz
+
+
 # Making a paired-trimmed fastq files from raw Gr15 fastq files;
 java -jar /usr/local/bin/trimmomatic.jar PE /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R1_001.fastq /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R2_001.fastq Gr_15_R1_Paired_trimmed.fq Gr_15_R1_Unpaired_trimmed.fq Gr_15_R2_Paired_trimmed.fq Gr_15_R2_Unpaired_trimmed.fq ILLUMINACLIP:adapters.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 
