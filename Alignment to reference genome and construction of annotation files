@@ -17,3 +17,22 @@ java -jar /usr/local/bin/trimmomatic.jar PE /Volumes/archive/macknightlab/RNAseq
 # Making a paired-trimmed fastq files from raw unzipped P12 fastq files
 java -jar /usr/local/bin/trimmomatic.jar PE /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.b2cf20113e3b499a98552db872ac7a6d/AAC2MGKM5-7498-16-49-0-1_S16_L001_R1_001.fastq /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.b2cf20113e3b499a98552db872ac7a6d/AAC2MGKM5-7498-16-49-0-1_S16_L001_R2_001.fastq P_12_R1_Paired_trimmed.fq P_12_R1_Unpaired_trimmed.fq P_12_R2_Paired_trimmed.fq P_12_R2_Unpaired_trimmed.fq ILLUMINACLIP:adapters.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 
+
+# Making BAM files with the indexed reference sequence (run code when inside ref. genome dir; STAR_genome_Trepens) and the Gr_15_R1_Paired_trimmed.fq (--outFilterMultimapNmax parameter will count multimappers)
+STAR --runThreadN 72 --g --readFilesIn Gr_15_R1_Paired_trimmed.fq Gr_15_R2_Paired_trimmed.fq --outFileNamePrefix Gr_15_mapped_multimap_adjusted_rd1 --outSAMtype BAM SortedByCoordinate --outFilterMultimapNmax 10
+STAR --runThreadN 72 --g --readFilesIn P_12_R1_Paired_trimmed.fq P_12_R2_Paired_trimmed.fq --outFileNamePrefix P_12_mapped_multimap_adjusted_rd1 --outSAMtype BAM SortedByCoordinate --outFilterMultimapNmax 10
+
+
+
+# Filter out duplicate sequences in a multi-fast containing all coding sequences of interest obtained from NCBI and Phytozome13 databases
+awk '/^>/ { f = !a[$0]++ } f' Genes_from_phytozome_13_with_others_added.fa
+
+# Normalise line length of multi-fasta annotation file 
+ava -jar /usr/local/bin/picard.jar NormalizeFasta I=Documents/Phytozome_and_Constructed_GFF_genes_filtered_mod_headers.fa O= normalised_phytozome_and_Constructed_GFF_filtered_mod_headers.fa --LINE_LENGTH 80
+
+
+# BLAT searching indexed reference genome (all_combined.fa is the indexed reference genome)
+# Note: this outputs a txt file in GFF format, which was reformatted to GTF format in Microsoft Excel
+blat STAR_genome_Trepens/all_combined.fa Documents/normalized_phytozome_and_Constructed_GFF_genes_filtered_mod_headers.fa Blat_output_attempt_one.txt
+
+
