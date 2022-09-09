@@ -1,0 +1,12 @@
+# Indexing reference genome
+STAR --runThreadN 72 --runMode genomeGenerate --genomeDir ./STAR_genome_Trepens --genomeFastaFiles all_combined_raw.fa --limitGenomeGenerateRAM 33896294443 --genomeSAindexNbases 13
+
+# Alignment of reference genome (without GTF)
+STAR --runThreadN 20 --runMode genomeGenerate --genomeDir ./STAR_genome_Trepens --genomeFastaFiles all_combined_raw.fa 
+
+# Unzipping RNA sequence fastq files (2 for Gr15 and 2 for P12; one forward and one reverse for each)
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R1_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R2_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-16-49-0-1_S15_L001_R1_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-16-49-0-1_S15_L001_R2_001.fastq.gz
+
