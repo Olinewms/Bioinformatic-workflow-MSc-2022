@@ -35,4 +35,17 @@ ava -jar /usr/local/bin/picard.jar NormalizeFasta I=Documents/Phytozome_and_Cons
 # Note: this outputs a txt file in GFF format, which was reformatted to GTF format in Microsoft Excel
 blat STAR_genome_Trepens/all_combined.fa Documents/normalized_phytozome_and_Constructed_GFF_genes_filtered_mod_headers.fa Blat_output_attempt_one.txt
 
+# Counting reads per locus in trial annotation file with HTSeq
+
+
+
+
+
+# Counting reads per locus in trial annotation file with FeatureCounts
+featureCounts -a Good_final_GTF_sacraficial.gtf -o featurecounts_Gr15_output_3rd_with_sortedByCoordBAM.txt --largestOverlap -t CDS -g gene_id /Volumes/archive/userdata/student_users/olivernewman/Gr_15_mappedAligned.sortedByCoord.out.bam -M --fraction
+featureCounts -a Good_final_GTF_sacraficial.gtf -o featurecounts_P12_output_3rd_with_sortedByCoordBAM.txt --largestOverlap -t CDS -g gene_id /Volumes/archive/userdata/student_users/olivernewman/P_12_mappedAligned.sortedByCoord.out.bam -M --fraction
+
+
+
+
 
