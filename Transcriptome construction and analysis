@@ -43,14 +43,15 @@ mkdir ./star_index
 # Index raw reference genome fasta (all_combined_raw.fa) using STAR with the non-expanded GTF annotation file
 STAR --runThreadN 8 --runMode genomeGenerate --genomeDir ./star_index --genomeFastaFiles all_combined_raw.fa --sjdbGTFfile Good_final_GTF_sacrificial.gtf --sjdbOverhang 99 --genomeSAindexNbases 13 --genomeChrBinNbits 14 --limitGenomeGenerateRAM 201877951872
 
-# Making a BAM file with all 4 paired_trimmed fastq files (1 forward and 1 reverse for both 2 samples)
+# Making a BAM file with all 4 paired_trimmed fastq files (1 forward and 1 reverse for both 2 samples) and the indexed reference genome inside the star_index directory
 STAR --genomeDir /Volumes/archive/userdata/student_users/olivernewman/star_index/ --runThreadN 8 --quantMode GeneCounts --outSAMtype BAM SortedByCoordinate --outSAMstrandField intronMotif --readFilesCommand zcat --outFilterMatchNminOverLread 0.1 --outFilterScoreMinOverLread 0.1 --outFilterMultimapNmax 10 --limitBAMsortRAM 60000000000 --readFilesIn ./Gr_15_R1_Paired_trimmed.fq.gz,./P_12_R1_Paired_trimmed.fq.gz ./Gr_15_R2_Paired_trimmed.fq.gz,./P_12_R2_Paired_trimmed.fq.gz
+
 
 # Using samtools to sort aligned BAM file outputted from the previous step
 samtools sort Aligned_4_reads_and_ref_made_with_sac_gtf.sortedByCoord.out.bam
 
 
-# Genome-guided assembly using Trinity
+# Genome-guided assembly using Trinity using a BAM file of both Gr15 and P12 RNA paired-trimmed reads (output_sam_sorted_BAM_aligned_genome.bam) that is sorted by Samtools in previous step
 /Volumes/userdata/student_users/olivernewman/Downloads/trinityrnaseq-v2.14.0/Trinity --genome_guided_bam output_sam_sorted_BAM_aligned_genome.bam --genome_guided_max_intron 30000 --max_memory 64G --CPU 32
 
 
