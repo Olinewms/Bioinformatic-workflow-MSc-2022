@@ -42,8 +42,8 @@ blat STAR_genome_Trepens/all_combined.fa Documents/normalized_phytozome_and_Cons
 
 
 # Counting reads per locus in trial annotation file with FeatureCounts
-featureCounts -a Good_final_GTF_sacraficial.gtf -o featurecounts_Gr15_output_3rd_with_sortedByCoordBAM.txt --largestOverlap -t CDS -g gene_id /Volumes/archive/userdata/student_users/olivernewman/Gr_15_mappedAligned.sortedByCoord.out.bam -M --fraction
-featureCounts -a Good_final_GTF_sacraficial.gtf -o featurecounts_P12_output_3rd_with_sortedByCoordBAM.txt --largestOverlap -t CDS -g gene_id /Volumes/archive/userdata/student_users/olivernewman/P_12_mappedAligned.sortedByCoord.out.bam -M --fraction
+featureCounts -a Good_final_GTF_sacraficial.gtf -o featurecounts_Gr15_output_4th_with_sortedByCoordBAM.txt --largestOverlap -t CDS -g transcript_id /Volumes/archive/userdata/student_users/olivernewman/Gr_15_mappedAligned.sortedByCoord.out.bam -M --fraction
+featureCounts -a Good_final_GTF_sacraficial.gtf -o featurecounts_P12_output_4th_with_sortedByCoordBAM.txt --largestOverlap -t CDS -g transcript_id /Volumes/archive/userdata/student_users/olivernewman/P_12_mappedAligned.sortedByCoord.out.bam -M --fraction
 
 
 
