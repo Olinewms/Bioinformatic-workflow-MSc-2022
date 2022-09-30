@@ -1,10 +1,10 @@
-# de novo transcriptome assemlby using Gr15 and P12 RNA-Seq data
+### de novo transcriptome assemlby using Gr15 and P12 RNA-Seq data
 
 # Unzipping RNA sequence fastq files (2 for Gr15 and 2 for P12; one forward and one reverse for each)
 gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R1_001.fastq.gz
 gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R2_001.fastq.gz
-gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-16-49-0-1_S15_L001_R1_001.fastq.gz
-gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-16-49-0-1_S15_L001_R2_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.b2cf20113e3b499a98552db872ac7a6d/AAC2MGKM5-7498-16-49-0-1_S16_L001_R1_001.fastq.gz
+gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-16-49-0-1_L1_ds.b2cf20113e3b499a98552db872ac7a6d/AAC2MGKM5-7498-16-49-0-1_S16_L001_R2_001.fastq.gz
 
 
 # Making a paired-trimmed fastq files from raw Gr15 fastq files;
@@ -16,19 +16,18 @@ java -jar /usr/local/bin/trimmomatic.jar PE /Volumes/archive/macknightlab/RNAseq
 
 
 # Making a Trinity de novo fasta file using the paired-trimmed fastq files;
-/Volumes/archive/userdata/student_users/olivernewman/Downloads/trinityrnaseq-v2.14.0/Trinity --seqType fq --max_memory 64G --left Gr_15_R1_Paired_trimmed.fq.gz,P_12_R1_Paired_trimmed.fq.gz --right Gr_15_R2_Paired_trimmed.fq.gz,P_12_R2_Paired_trimmed.fq.gz --CPU 32 --output trinity_1st_attempt_with_both_samples --verbose
+/trinityrnaseq-v2.14.0/Trinity --seqType fq --max_memory 64G --left Gr_15_R1_Paired_trimmed.fq.gz,P_12_R1_Paired_trimmed.fq.gz --right Gr_15_R2_Paired_trimmed.fq.gz,P_12_R2_Paired_trimmed.fq.gz --CPU 32 --output trinity_1st_attempt_with_both_samples --verbose
+
 
 # Mapping paired-trimmed Gr15 fastq files to the de novo assembly fasta file;
-/Volumes/archive/userdata/student_users/olivernewman/Downloads/trinityrnaseq-v2.14.0/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity-GG.fasta --seqType fq --left /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/Gr_15_R1_Paired_trimmed.fq.gz --right /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/Gr_15_R2_Paired_trimmed.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir Output_RSEM_for_GR15
+/trinityrnaseq-v2.14.0/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity-GG.fasta --seqType fq --left /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/Gr_15_R1_Paired_trimmed.fq.gz --right /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/Gr_15_R2_Paired_trimmed.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir Output_RSEM_for_GR15
 
-# Mapping paired-trimmed Gr15 fastq files to the de novo assembly fasta file;
-/Volumes/archive/userdata/student_users/olivernewman/Downloads/trinityrnaseq-v2.14.0/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity-GG.fasta --seqType fq --left /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/P_12_R1_Paired_trimmed.fq.gz --right /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/P_12_R2_Paired_trimmed.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir Output_RSEM_for_P12
-
-
+# Mapping paired-trimmed P12 fastq files to the de novo assembly fasta file;
+/trinityrnaseq-v2.14.0/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity-GG.fasta --seqType fq --left /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/P_12_R1_Paired_trimmed.fq.gz --right /Volumes/archive/userdata/student_users/olivernewman/Paired_trimmed_for_Trinity/P_12_R2_Paired_trimmed.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir Output_RSEM_for_P12
 
 
 
-# Genome-guided transcriptome assemlby using Gr15 and P12 RNA-Seq data and reference genome
+### Genome-guided transcriptome assemlby using Gr15 and P12 RNA-Seq data and reference genome
 
 # Making a paired-trimmed fastq files from raw Gr15 fastq files;
 java -jar /usr/local/bin/trimmomatic.jar PE /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R1_001.fastq /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R2_001.fastq Gr_15_R1_Paired_trimmed.fq Gr_15_R1_Unpaired_trimmed.fq Gr_15_R2_Paired_trimmed.fq Gr_15_R2_Unpaired_trimmed.fq ILLUMINACLIP:adapters.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
@@ -44,17 +43,27 @@ mkdir ./star_index
 STAR --runThreadN 8 --runMode genomeGenerate --genomeDir ./star_index --genomeFastaFiles all_combined_raw.fa --sjdbGTFfile Good_final_GTF_sacrificial.gtf --sjdbOverhang 99 --genomeSAindexNbases 13 --genomeChrBinNbits 14 --limitGenomeGenerateRAM 201877951872
 
 # Making a BAM file with all 4 paired_trimmed fastq files (1 forward and 1 reverse for both 2 samples) and the indexed reference genome inside the star_index directory
-STAR --genomeDir /Volumes/archive/userdata/student_users/olivernewman/star_index/ --runThreadN 8 --quantMode GeneCounts --outSAMtype BAM SortedByCoordinate --outSAMstrandField intronMotif --readFilesCommand zcat --outFilterMatchNminOverLread 0.1 --outFilterScoreMinOverLread 0.1 --outFilterMultimapNmax 10 --limitBAMsortRAM 60000000000 --readFilesIn ./Gr_15_R1_Paired_trimmed.fq.gz,./P_12_R1_Paired_trimmed.fq.gz ./Gr_15_R2_Paired_trimmed.fq.gz,./P_12_R2_Paired_trimmed.fq.gz
+STAR --genomeDir /star_index/ --runThreadN 8 --quantMode GeneCounts --outSAMtype BAM SortedByCoordinate --outSAMstrandField intronMotif --readFilesCommand zcat --outFilterMatchNminOverLread 0.1 --outFilterScoreMinOverLread 0.1 --outFilterMultimapNmax 10 --limitBAMsortRAM 60000000000 --readFilesIn ./Gr_15_R1_Paired_trimmed.fq.gz,./P_12_R1_Paired_trimmed.fq.gz ./Gr_15_R2_Paired_trimmed.fq.gz,./P_12_R2_Paired_trimmed.fq.gz
 
 
 # Using samtools to sort aligned BAM file outputted from the previous step
 samtools sort Aligned_4_reads_and_ref_made_with_sac_gtf.sortedByCoord.out.bam
 
 
-# Genome-guided assembly using Trinity using a BAM file of both Gr15 and P12 RNA paired-trimmed reads (output_sam_sorted_BAM_aligned_genome.bam) that is sorted by Samtools in previous step
-/Volumes/userdata/student_users/olivernewman/Downloads/trinityrnaseq-v2.14.0/Trinity --genome_guided_bam output_sam_sorted_BAM_aligned_genome.bam --genome_guided_max_intron 30000 --max_memory 64G --CPU 32
+# Genome-guided assembly using Trinity using a BAM file of both Gr15 and P12 paired-trimmed RNA reads (output_sam_sorted_BAM_aligned_genome.bam) that is sorted by Samtools in previous step
+/trinityrnaseq-v2.14.0/Trinity --genome_guided_bam output_sam_sorted_BAM_aligned_genome.bam --genome_guided_max_intron 30000 --max_memory 64G --CPU 32
 
 
+### Differential expression analysis of read-counts using the genome-guided transcriptome
 
+# Mapping paired-trimmed RNA reads back to the genome-guided transcriptome using RSEM (one line for each sample)
+/trinityrnaseq-v2.14.0/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity-GG.fasta --seqType fq --left Gr_15_R1_Paired_trimmed.fq.gz --right Gr_15_R2_Paired_trimmed.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir Output_RSEM_for_GR15
+/trinityrnaseq-v2.14.0/util/align_and_estimate_abundance.pl --transcripts trinity_out_dir/Trinity-GG.fasta --seqType fq --left P_12_R1_Paired_trimmed.fq.gz --right P_12_R2_Paired_trimmed.fq.gz --est_method RSEM --aln_method bowtie2 --trinity_mode --prep_reference --output_dir Output_RSEM_for_P15
+
+# Constructing a count matrix for each transcript
+/trinityrnaseq-v2.14.0/util/abundance_estimates_to_matrix.pl --est_method RSEM --gene_trans_map /trinity_out_dir/Trinity-GG.fasta.gene_trans_map --name_sample_by_basedir /Output_RSEM_for_GR15/RSEM.isoforms.results /Output_RSEM_for_P12/RSEM.isoforms.results
+
+# DE analysis EdgeR
+/trinityrnaseq-v2.14.0/Analysis/DifferentialExpression/run_DE_analysis.pl --matrix RSEM.gene.counts.matrix --method edgeR --dispersion 0.1 --output edgeR_genes_from_RSEM_gg_counts_matrix
 
 
