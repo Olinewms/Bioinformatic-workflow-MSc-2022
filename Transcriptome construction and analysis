@@ -66,4 +66,18 @@ samtools sort Aligned_4_reads_and_ref_made_with_sac_gtf.sortedByCoord.out.bam
 # DE analysis EdgeR
 /trinityrnaseq-v2.14.0/Analysis/DifferentialExpression/run_DE_analysis.pl --matrix RSEM.gene.counts.matrix --method edgeR --dispersion 0.1 --output edgeR_genes_from_RSEM_gg_counts_matrix
 
+# Extracting the top 100 sequences more highly expressed in Gr15 and top 100 sequences more highly expressed in P12
+# Note: the single-columns in each of gene_ids_all_DE_RSEM_trinity_edgeR.txt and logFC_of_gene_ids_all_DE_RSEM_trinity_edgeR.txt were copied and pasted into a Microsoft Excel spreadsheet, which was then sorted relative to the logFC values
+# This was done so the top 100 sequence IDs more highly expressed in Gr15 (highest +ve logFC values) and top 100 sequence IDs more highly expressed in P12 (highest -ve logFC values) could be cut and pasted into individual .txt files
+cat RSEM.gene.counts.matrix.Output_RSEM_for_GR15_vs_Output_RSEM_for_P12.edgeR.DE_results | tail -n +2 | cut -f1 >> gene_ids_all_DE_RSEM_trinity_edgeR.txt
+cat RSEM.gene.counts.matrix.Output_RSEM_for_GR15_vs_Output_RSEM_for_P12.edgeR.DE_results | tail -n +2 | cut -f4 >> logFC_of_gene_ids_all_DE_RSEM_trinity_edgeR.txt
+
+# Searching the genome-guided transcriptome .fasta file for the sequence IDs specified in the .txt file made from the two commands in the section above and extracting them into a new .fasta file
+# Note: these .fasta files were fed into a BLASTn search 
+seqkit grep -f top_100_Gr15_DE.edgeR.txt /Volumes/scratch/brownfieldlab/Ollie/Trinity-GG.fasta -o top_100_Gr15_gene.fasta
+seqkit grep -f top_100_P12_DE.edgeR.txt /Volumes/scratch/brownfieldlab/Ollie/Trinity-GG.fasta -o top_100_P12_gene.fasta
+
+
+
+
 
