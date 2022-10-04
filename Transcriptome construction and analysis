@@ -16,6 +16,7 @@ java -jar /usr/local/bin/trimmomatic.jar PE /Volumes/archive/macknightlab/RNAseq
 
 
 # Making a Trinity de novo fasta file using the paired-trimmed fastq files;
+# Note: it is important to used paired reads when constructing a transcriptome, as pairing essentially increases read length
 /trinityrnaseq-v2.14.0/Trinity --seqType fq --max_memory 64G --left Gr_15_R1_Paired_trimmed.fq.gz,P_12_R1_Paired_trimmed.fq.gz --right Gr_15_R2_Paired_trimmed.fq.gz,P_12_R2_Paired_trimmed.fq.gz --CPU 32 --output trinity_1st_attempt_with_both_samples --verbose
 
 
