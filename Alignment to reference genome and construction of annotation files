@@ -51,5 +51,31 @@ featureCounts -a Good_final_GTF.gtf -o featurecounts_P12_output_4th_with_sortedB
 
 
 
+## Expanding annotation file
 
+# Indexing the reference genome with the trial annotation file
+STAR --runThreadN 8 --runMode genomeGenerate --genomeDir ./STAR_genome_Trepens --genomeFastaFiles all_combined_raw.fa --sjdbGTFfile ./Good_final_GTF_sacrificial.gtf --sjdbOverhang 99 --genomeSAindexNbases 13 --genomeChrBinNbits 14 --limitGenomeGenerateRAM 201877951872
+# Reading in T. repens RNA .fastq files (while using the indexed genome created in the command above) to make a Aligned.sortedByCoord.out.bam file
+STAR --genomeDir ./STAR_genome_Trepens --runThreadN 8 --quantMode GeneCounts --outSAMtype BAM SortedByCoordinate --outSAMstrandField intronMotif --readFilesCommand zcat --outFilterMatchNminOverLread 0.1 --outFilterScoreMinOverLread 0.1 --outFilterMultimapNmax 10 --limitBAMsortRAM 60000000000 --readFilesIn ./First_1.fastq.gz,./Second_1.fastq.gz ./First_2.fastq.gz,./Second_2.fastq.gz
 
+# Using stringtie to generate new .gtf file from the clustering of reads in the Aligned.sortedByCoord.out.bam file 
+# Note: Aligned.sortedByCoord.out.bam is made by the previous command
+stringtie Aligned.sortedByCoord.out.bam -v -o ./new.gtf -p 8
+
+# Merging new .gtf with trial .gtf to carry over annotation names contained in the trial .gtf file (Good_final_GTF.gtf)
+# Note: gtf_list.txt contains the name an path of each of the gtf's we are to merge (in this case new.gtf and Good_final_GTF.gtf)
+stringtie --merge -p 8 -G /path/to/Good_final_GTF.gtf -o gtfs_merged.gtf gtf_list.txt
+
+## Gene ontology analysis
+# Extracting FASTA sequences from the reference genome using the coordinates within the gtfs_merged.gtf file (and compile them into a single FASTA file)
+gffread -w transcripts_from_merged_gtf.fa -g /path/to/all_combined_raw.fa gtfs_merged.gtf
+
+# Trimming the headers of the new .fasta file
+cut -d ' ' -f 1 < transcripts_from_merged_gtf.fa > yourtrimmedheaderquery.fasta 
+
+# Using diamond to carry out a blastx search of the sequences specified by gtfs_merged.gtf (now within yourtrimmedheaderquery.fasta) and record associated gene ontology terms
+# Note: this outputs an .xml file, however it command can be changed to output a readable text file instead
+/path/to/diamond blastx --query yourtrimmedheaderquery.fasta --db /path/to/diamond_db/diamondnr.dmnd --evalue 0.001 --out Yourout_diamond.xml --threads 24 --max-target-seqs 1 --outfmt 5 --more-sensitive
+
+# Getting diamond to output a text file instead of a .xml file
+/path/to/diamond blastx --query yourtrimmedheaderquery.fasta --db /path/to/diamond_db/diamondnr.dmnd --evalue 0.001 --out Yourout_diamond.txt --threads 24 --max-target-seqs 1 --outfmt 6 qseqid sseqid bitscore --more-sensitive
