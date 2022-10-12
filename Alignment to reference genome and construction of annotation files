@@ -66,7 +66,9 @@ stringtie Aligned.sortedByCoord.out.bam -v -o ./new.gtf -p 8
 # Note: gtf_list.txt contains the name an path of each of the gtf's we are to merge (in this case new.gtf and Good_final_GTF.gtf)
 stringtie --merge -p 8 -G /path/to/Good_final_GTF.gtf -o gtfs_merged.gtf gtf_list.txt
 
+
 ## Gene ontology analysis
+# Note: this protocol is not discussed with the PLBI495 report
 # Extracting FASTA sequences from the reference genome using the coordinates within the gtfs_merged.gtf file (and compile them into a single FASTA file)
 gffread -w transcripts_from_merged_gtf.fa -g /path/to/all_combined_raw.fa gtfs_merged.gtf
 
