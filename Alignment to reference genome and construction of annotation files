@@ -23,7 +23,7 @@ STAR --runThreadN 72 --g --readFilesIn Gr_15_R1_Paired_trimmed.fq Gr_15_R2_Paire
 STAR --runThreadN 72 --g --readFilesIn P_12_R1_Paired_trimmed.fq P_12_R2_Paired_trimmed.fq --outFileNamePrefix P_12_mapped_multimap_adjusted_rd1 --outSAMtype BAM SortedByCoordinate --outFilterMultimapNmax 10
 
 
-# Filter out duplicate sequences in a multi-fast containing all coding sequences of interest obtained from NCBI and Phytozome13 databases
+# Filter out duplicate sequences in a multi-fasta containing all coding sequences of interest obtained from NCBI and Phytozome13 databases
 awk '/^>/ { f = !a[$0]++ } f' Genes_from_phytozome_13_with_others_added.fa
 
 # Normalise line length of multi-fasta annotation file 
