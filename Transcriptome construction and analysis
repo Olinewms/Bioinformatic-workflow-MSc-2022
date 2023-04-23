@@ -1,4 +1,4 @@
-### de novo transcriptome assemlby using Gr15 and P12 RNA-Seq data
+### de novo transcriptome assembly using Gr15 and P12 RNA-Seq data
 
 # Unzipping RNA sequence fastq files (2 for Gr15 and 2 for P12; one forward and one reverse for each)
 gzip -d /Volumes/archive/macknightlab/RNAseq_1_6_22/AAC2MGKM5-7498-15-49-0-1_L1_ds.1144547961444886983822edfde76e82/AAC2MGKM5-7498-15-49-0-1_S15_L001_R1_001.fastq.gz
